@@ -1,0 +1,37 @@
+@model WeatherData
+@{
+    ViewData["Title"] = "Weather Dashboard";
+}
+
+<h1>Weather Dashboard</h1>
+
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
+
+<form asp-action="Search" method="post">
+    <div class="input-group mb-3">
+        <input type="text" name="city" class="form-control" placeholder="Enter city name" value="@Model?.City" required />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
+@if (Model != null)
+{
+    <div class="weather-card">
+        <h2>@Model.City @Model.Country</h2>
+        <div class="weather-info">
+            <img src="https://openweathermap.org/img/wn/@(Model.Icon).png"
+                 alt="@Model.Description" />
+            <span class="temperature">@Model.Temperature.ToString("0")°C</span> 
+        </div>
+        <p class="description">@Model.Description</p>
+        <div class="details">
+            <p>Humidity: @Model.Humidity%</p>
+            <p>Wind: @Model.WindSpeed m/s</p>
+        </div>
+    </div>
+}
