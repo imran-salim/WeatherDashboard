@@ -1,0 +1,33 @@
+@model CurrentWeather
+
+<section>
+    <form asp-controller="Weather" asp-action="Index" method="get" class="search">
+        <input type="text" name="city" placeholder="Try: Christchurch or Christchurch,NZ" value="@Model?.City" />
+        <button type="submit">Search</button>
+    </form>
+</section>
+
+@if (Model is null)
+{
+    <p>No results. Try another city.</p>
+}
+else
+{
+    <section class="card">
+        <h2>
+            @Model.City
+            @if (!string.IsNullOrWhiteSpace(Model.CountryCode))
+            {
+                <text>, @Model.CountryCode</text>
+            }
+        </h2>
+
+        <div class="temp">@(Model.Temperature?.ToString("F1") ?? "—") °C</div>
+        <div class="desc">@Model.Description</div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Icon))
+        {
+            <img alt="icon" src="@($"https://openweathermap.org/img/wn/{Model.Icon}@2x.png")" />
+        }
+    </section>
+}
